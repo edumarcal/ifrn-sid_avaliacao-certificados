@@ -1,0 +1,9 @@
+Avaliação Certificados
+
+- Gerar uma apĺicação web na linguagem de programação de sua preferência, que faça ao menos:
+
+- (1,0) Geração de Certificados
+- (1,0) Verificação de Certificados
+- (1,0) Assinatura de Documentos
+- (1,0) Verificação da assinatura
+- (1,0) Autenticação de usuário via certificado
