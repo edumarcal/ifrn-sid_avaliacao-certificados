@@ -30,9 +30,39 @@
 				<button class="btn btn-primary" type="submit">Autenticar</button>
 				<button class="btn" type="reset" value="Reset">Limpar</button>
 			</form>
+			<p><a href="/">Voltar para a página inicial</a></p>
 	</div>
 </body>
 </html>
 <?php
 
-echo "Olá Mundo!";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+	$dirTemp = 'temp/';
+	$file = $_FILES['certificado']['name'];
+	$uploadfile = $dirTemp . basename($file);
+
+	move_uploaded_file($_FILES['certificado']['tmp_name'], $uploadfile);
+	
+	$certInfo = @openssl_x509_read(file_get_contents($uploadfile)) or die("<h3 class='container bg-danger text-white'>Certificado inválido</h3>");
+	
+	$valid = openssl_x509_checkpurpose($certInfo,X509_PURPOSE_SSL_SERVER, array($uploadfile));
+
+	if ($valid === false) {
+		unlink($uploadfile);
+		die("<h3 class='container bg-danger text-white'>Certificado inválido</h3>");
+	}
+	
+	$email = $_POST['email'];
+
+	$certEmail = explode("emailAddress=",openssl_x509_parse($certInfo)['name'])[1];
+
+	if($email == $certEmail) {
+		echo "<h3 class='container bg-success text-white'>Usuário autenticado</h3>";
+		header("Location: /");
+	} else {
+		echo "<h3 class='container bg-danger text-white'>Certificado não pertence a esse usuário</h3>";
+	}
+
+	unlink($uploadfile);
+}

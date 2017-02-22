@@ -35,6 +35,7 @@
 					<button class="btn btn-primary" type="submit">Gerar Certificado</button>
 					<button class="btn" type="reset" value="Reset">Limpar</button>
 			</form>
+			<p><a href="/">Voltar para a página inicial</a></p>
 	</div>
 </body>
 </html>
